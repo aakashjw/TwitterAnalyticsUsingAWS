@@ -6,8 +6,8 @@ import time
 my_stream_name = 'jishas-stream'
 
 kinesis_client = boto3.client('kinesis',  region_name='us-east-2',
-                               aws_access_key_id='AKIAJD2XQ5P4X3U76GWA',
-                               aws_secret_access_key='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')
+                               aws_access_key_id='xx',
+                               aws_secret_access_key='xx')
 
 response = kinesis_client.describe_stream(StreamName=my_stream_name)
 

@@ -6,10 +6,10 @@ import json
 import kinesis_producer as kinesis_client
 
 #Variables that contains the user credentials to access Twitter API 
-access_token = "1360471795-gdsbarUnPQf6augw4byhIjRlIX5K8SPklP4im1i"
-access_token_secret = "bnP19PcntCOpHLw6k1LEQI04ObUIooFM671kuVkWu5dE4"
-consumer_key = "EW0UCymc40M5jJgOW5gj9KZz2"
-consumer_secret = "IzeALCcg3N2IyAAlCBtOKpfln1kkvVBfXi0w6DTWkIDYPmdfBs"
+access_token = "xx"
+access_token_secret = "xx"
+consumer_key = "xx"
+consumer_secret = "xx"
 
 
 #This is a basic listener that just prints received tweets to stdout.
