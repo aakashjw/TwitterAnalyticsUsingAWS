@@ -3,26 +3,39 @@ from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
 import json
-import kinesis_producer as kinesis_client
+import boto3
 
 #Variables that contains the user credentials to access Twitter API 
-access_token = "xx"
-access_token_secret = "xx"
-consumer_key = "xx"
-consumer_secret = "xx"
+access_token = "XXXXXXXXXXXXXXXXXXXXXXXXX"
+access_token_secret = "XXXXXXXXXXXXXXXXXXXXXXXXX"
+consumer_key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
+consumer_secret = "XXXXXXXXXXXXXXXXXXXXXXXXX"
 
+my_stream_name = 'XXXXXXXXXX'
+
+kinesis_client = boto3.client('kinesis')
+
+print (kinesis_client.describe_stream(StreamName=my_stream_name))
 
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
 
     def on_data(self, data):
-        #print (json.loads(data).get("text"))
-        kinesis_client.put_to_stream(data)
         print (data)
+        #print json.dumps(data)
+        
+        self.put_to_stream(data)
         return True
 
     def on_error(self, status):
-        print (status)
+        print(status)
+
+    def put_to_stream(self, data):
+        #print (payload)
+        put_response = kinesis_client.put_record(
+                            StreamName=my_stream_name,
+                            Data=json.dumps(data),
+                            PartitionKey="shardId-000000000000")
 
 
 if __name__ == '__main__':
@@ -34,4 +47,9 @@ if __name__ == '__main__':
     stream = Stream(auth, l)
 
     #This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
-    stream.filter(track=['Javascript', 'Python', 'Ruby'])
+    f = open("input.txt")
+    text_filter = []
+    for text in f.readlines():
+        text_filter.append(text.strip())
+    print text_filter
+    stream.filter(track=text_filter)
